@@ -6,25 +6,55 @@
 
 1. Add the following to your **root** `build.gradle` file:
 
-```
-allprojects {
-    repositories {
-        ...
+    ```
+    allprojects {
+        repositories {
+            ...
 
-        maven { url "https://raw.githubusercontent.com/placed/android-placed-sdk/master/repository" }
+            maven { url "https://raw.githubusercontent.com/placed/android-placed-sdk/master/repository" }
+        }
     }
-}
-```
+    ```
 
 2. Add the following to your **app** `build.gradle` file:
 
-```
-dependencies {
-    ...
+    ```
+    dependencies {
+        ...
 
-    compile 'com.placed.client:android-persistent-sdk:1.30'
-}
-```
+        compile 'com.placed.client:android-persistent-sdk:1.30'
+    }
+    ```
+
+3. If you use ProGuard, add the following to your `proguard-rules.pro` file:
+
+    ```
+    # Retrofit
+    # Taken from https://square.github.io/retrofit/
+    -dontnote retrofit2.Platform
+    -dontnote retrofit2.Platform$IOS$MainThreadExecutor
+    -dontwarn retrofit2.Platform$Java8
+    -keepattributes Signature
+    -keepattributes Exceptions
+    -keepclasseswithmembers class * {
+        @retrofit2.http.* <methods>;
+    }
+
+    # OkHttp
+    -dontwarn com.squareup.okhttp.**
+    -dontwarn okio.Okio
+    -dontwarn okio.DeflaterSink
+    -dontwarn java.nio.file.*
+    -dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
+
+    # Placed
+    -keep class com.placed.client.android.DTOModel {
+        *;
+    }
+    -keep class * extends com.placed.client.android.DTOModel {
+        <fields>;
+    }
+    ```
   
 ### Configuration
 * Add the application key provided to you by Placed in the application tag of your **AndroidManifest.xml**.
@@ -137,4 +167,3 @@ This method is used for custom integrations with Placed. If you have questions p
   
 `static void logDemographics(Context context, String jsonString, String source, String version)`  
 This method is used for custom integrations with Placed. If you have questions please inquire with your contact at Placed.  
-
