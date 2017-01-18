@@ -55,6 +55,28 @@
         <fields>;
     }
     ```
+
+4. You may encounter Lint error: 'InvalidPackage: Package not included in Android' related to Okio and Retrofit. (This is a known issue with Okio that you can read about [here](https://github.com/square/okio/issues/58).)
+
+    If so, create a `lint.xml` with the following contents:
+    ```
+    <lint>
+        <issue id="InvalidPackage">
+            <ignore regexp=".*okio.*" />
+            <ignore regexp=".*retrofit.*" />
+        </issue>
+    </lint>
+    ```
+
+    And reference it from your **app** `build.gradle` file:
+    ```
+    android {
+        ...
+        lintOptions {
+            lintConfig file("lint.xml")
+        }
+    }
+    ```
   
 ### Configuration
 * Add the application key provided to you by Placed in the application tag of your **AndroidManifest.xml**.
