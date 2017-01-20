@@ -15,29 +15,3 @@
 #-keepclassmembers class fqcn.of.javascript.interface.for.webview {
 #   public *;
 #}
-
-# Retrofit
-# Taken from https://square.github.io/retrofit/
--dontnote retrofit2.Platform
--dontnote retrofit2.Platform$IOS$MainThreadExecutor
--dontwarn retrofit2.Platform$Java8
--keepattributes Signature
--keepattributes Exceptions
--keepclasseswithmembers class * {
-    @retrofit2.http.* <methods>;
-}
-
-# OkHttp
--dontwarn com.squareup.okhttp.**
--dontwarn okio.Okio
--dontwarn okio.DeflaterSink
--dontwarn java.nio.file.*
--dontwarn org.codehaus.mojo.animal_sniffer.IgnoreJRERequirement
-
-# Placed
--keep class com.placed.client.android.DTOModel {
-    *;
-}
--keep class * extends com.placed.client.android.DTOModel {
-    <fields>;
-}
